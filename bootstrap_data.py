@@ -6,7 +6,7 @@ from functions.stylizedfacts import *
 from functions.helpers import hypothetical_series
 
 
-BOOTSTRAPS = 24
+BOOTSTRAPS = 480
 shiller_block_size = 75
 
 # Collect data from website of Shiller

@@ -52,7 +52,7 @@ class TraderVariablesDistribution:
     """
     Holds the initial variables for the traders
     """
-    def __init__(self, weight_fundamentalist, weight_chartist, weight_random, forecast_adjust,
+    def __init__(self, weight_fundamentalist, weight_chartist, weight_random, c_share_strat,
                  money, stocks, covariance_matrix, init_price):
         """
         Initializes variables for the trader
@@ -64,7 +64,7 @@ class TraderVariablesDistribution:
         self.weight_fundamentalist = [weight_fundamentalist]
         self.weight_chartist = [weight_chartist]
         self.weight_random = [weight_random]
-        self.forecast_adjust = forecast_adjust
+        self.c_share_strat = c_share_strat
         self.money = [money]
         self.stocks = [stocks]
         self.wealth = [money + stocks * init_price]
