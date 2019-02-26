@@ -53,7 +53,7 @@ def pool_handler():
     p = Pool(CORES) # argument is how many process happening in parallel
     output = p.map(bootstrap_bubble_moments, bootstrapped_pd_series)  # first argument is function to execute, second argument is tuple of all inputs
 
-    outpt = zip(*output)
+    outpt = list(zip(*output))
     perc_bubble_occur = outpt[0]
     av_lenghts_of_bubbles = outpt[1]
     stdev_lenghts_bubbles = outpt[2]
