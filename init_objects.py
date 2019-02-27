@@ -19,7 +19,6 @@ def init_objects_distr(parameters, seed):
     traders = []
     n_traders = parameters["n_traders"]
 
-    #TODO this is new
     weight_f = (1 - parameters['strat_share_chartists']) * (1 - parameters['w_random'])
     weight_c = parameters['strat_share_chartists'] * (1 - parameters['w_random'])
 
