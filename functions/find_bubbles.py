@@ -374,17 +374,17 @@ def sim_bubble_info(seed):
     - chartist expectation
     - fundamentalist expectation
     """
-    BURN_IN = 400
+    BURN_IN = 200
     with open('parameters.json', 'r') as f:
         params = json.loads(f.read())
     # simulate model once
-    #traders = []
+
     obs = []
     # run model with parameters
     print('Simulate once')
     traders, orderbook = init_objects_distr(params, seed)
     traders, orderbook = pb_distr_model(traders, orderbook, params, seed)
-    #traders.append(traders)
+
     obs.append(orderbook)
 
     # store simulated stylized facts
@@ -406,7 +406,7 @@ def sim_bubble_info(seed):
     # calc bubbles
     bsadfs = PSY(y, swindow0, IC, adflag)
 
-    quantilesBsadf = cvPSYwmboot(y, swindow0, IC, adflag, Tb, nboot=99)
+    quantilesBsadf = cvPSYwmboot(y, swindow0, IC, adflag, Tb, nboot=nboot)
 
     monitorDates = y.iloc[swindow0 - 1:obs].index
     quantile95 = np.dot(np.array([quantilesBsadf]).T, np.ones([1, dim]))
@@ -463,12 +463,12 @@ def sim_bubble_info(seed):
             wealth_end = money_end + (stocks_end * mc_prices[0].iloc[end_dates[l]])
 
             # determine characteristics of the agents
-            risk_aversions = [x.par.risk_aversion for x in traders]
-            horizons = [x.par.horizon for x in traders]
-            learning_abilities = [x.par.learning_ability for x in traders]
-            chartist_expectations = [np.array(x.var.weight_chartist)[BURN_IN + start_dates[l]: BURN_IN + end_dates[l]] * x.var.forecast_adjust for x in traders]
-            fundamentalist_expectations = [np.array(x.var.weight_fundamentalist)[BURN_IN + start_dates[l]: BURN_IN + end_dates[l]] * x.var.forecast_adjust for x in
-                                         traders]
+            risk_aversions.append([x.par.risk_aversion for x in traders])
+            horizons.append([x.par.horizon for x in traders])
+            learning_abilities.append([x.par.learning_ability for x in traders])
+            chartist_expectations.append([x.var.weight_chartist[BURN_IN + start_dates[l]: BURN_IN + end_dates[l]] for x in traders])
+            fundamentalist_expectations.append([x.var.weight_fundamentalist[BURN_IN + start_dates[l]: BURN_IN + end_dates[l]] for x in
+                                         traders])
 
             wealth_gini_over_time = []
             palma_over_time = []

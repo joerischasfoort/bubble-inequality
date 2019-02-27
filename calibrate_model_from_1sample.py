@@ -25,7 +25,7 @@ problem = {
             "mutation_intensity",
             "average_learning_ability"],
   'bounds': [[0.05, 0.30],
-             [0.01, 0.99], [0.01, 0.99],
+             [0.02, 0.98], [0.02, 0.98],
              [0.1, 15.0],
              [0.1, 1.0], [0.1, 0.9],
              [0.1, 1.0]]
@@ -50,12 +50,10 @@ def simulate_a_seed(seed_params):
     seed = seed_params[0]
     params = seed_params[1]
 
-    #traders = []
     obs = []
     # run model with parameters
     traders, orderbook = init_objects_distr(params, seed)
     traders, orderbook = pb_distr_model(traders, orderbook, params, seed)
-    #traders.append(traders)
     obs.append(orderbook)
 
     # store simulated stylized facts
@@ -152,12 +150,12 @@ def pool_handler():
         :param input_parameters: list of input parameters
         :return: average cost
         """
-        variable_names = ['std_noise',
-            'w_random', 'strat_share_chartists',
-            'base_risk_aversion',
-            "fundamentalist_horizon_multiplier",
-            "mutation_intensity",
-            "average_learning_ability"]
+        # variable_names = ['std_noise',
+        #     'w_random', 'strat_share_chartists',
+        #     'base_risk_aversion',
+        #     "fundamentalist_horizon_multiplier",
+        #     "mutation_intensity",
+        #     "average_learning_ability"]
 
         # convert relevant parameters to integers
         new_input_params = []
@@ -165,7 +163,7 @@ def pool_handler():
             new_input_params.append(par)
 
         # update params
-        uncertain_parameters = dict(zip(variable_names, new_input_params))
+        uncertain_parameters = dict(zip(problem['names'], new_input_params))
         params = {"ticks": 1200 + BURN_IN, "fundamental_value": 166, 'n_traders': 500, 'std_fundamental': 0.0530163128919286,
           'spread_max': 0.004087, "init_stocks": 50, 'trader_sample_size': 19,
           'horizon': 200, "trades_per_tick": 4}

@@ -3,7 +3,7 @@ from objects.orderbook import *
 import pandas as pd
 import random
 import numpy as np
-from functions.helpers import calculate_covariance_matrix
+from functions.helpers import calculate_covariance_matrix, div0
 
 
 def init_objects_distr(parameters, seed):
@@ -32,7 +32,6 @@ def init_objects_distr(parameters, seed):
     random.shuffle(strat_points)
     agent_points = np.array_split(strat_points, n_traders)
 
-
     max_horizon = parameters['horizon'] * 2  # this is the max horizon of an agent if 100% fundamentalist
     historical_stock_returns = np.random.normal(0, parameters["std_fundamental"], max_horizon)
 
@@ -44,7 +43,7 @@ def init_objects_distr(parameters, seed):
         init_stocks = int(np.random.uniform(0, parameters["init_stocks"]))
         init_money = np.random.uniform(0, (parameters["init_stocks"] * parameters['fundamental_value']))
 
-        c_share_strat = weight_chartist / (weight_fundamentalist + weight_chartist)
+        c_share_strat = div0(weight_chartist, (weight_fundamentalist + weight_chartist))
 
         # initialize co_variance_matrix
         init_covariance_matrix = calculate_covariance_matrix(historical_stock_returns, parameters["std_fundamental"])
