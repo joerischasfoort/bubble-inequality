@@ -24,8 +24,8 @@ def pool_handler():
 if __name__ == '__main__':
     start_time = time.time()
 
-    NRUNS = 4
-    CORES = 2  # set the amount of cores equal to the amount of runs
+    NRUNS = 16
+    CORES = 4  # set the amount of cores equal to the amount of runs
 
     pool_handler()
     print("The simulations took", time.time() - start_time, "to run")

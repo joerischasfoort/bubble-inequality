@@ -11,7 +11,7 @@ np.seterr(all='ignore')
 start_time = time.time()
 
 # INPUT PARAMETERS
-LATIN_NUMBER = 1
+LATIN_NUMBER = 7
 NRUNS = 5
 BURN_IN = 250
 CORES = NRUNS # set the amount of cores equal to the amount of runs
