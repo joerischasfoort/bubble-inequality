@@ -24,7 +24,7 @@ def pool_handler():
 if __name__ == '__main__':
     start_time = time.time()
 
-    NRUNS = 16
+    NRUNS = 28
     CORES = 4  # set the amount of cores equal to the amount of runs
 
     pool_handler()

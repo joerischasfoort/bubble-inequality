@@ -12,7 +12,7 @@ start_time = time.time()
 
 # INPUT PARAMETERS
 LATIN_NUMBER = 4
-NRUNS = 5
+NRUNS = 4
 BURN_IN = 250
 CORES = NRUNS # set the amount of cores equal to the amount of runs
 
@@ -24,10 +24,10 @@ problem = {
             "fundamentalist_horizon_multiplier",
             "mutation_intensity",
             "average_learning_ability"],
-  'bounds': [[0.05, 0.30],
-             [0.02, 0.98], [0.02, 0.98],
+  'bounds': [[0.05, 0.20],
+             [0.02, 0.20], [0.20, 0.90],
              [0.1, 14.0],
-             [0.1, 1.0], [0.05, 0.9],
+             [0.1, 1.0], [0.05, 0.7],
              [0.1, 1.0]]
 }
 
@@ -40,9 +40,9 @@ UB = [x[1] for x in problem['bounds']]
 
 init_parameters = latin_hyper_cube[LATIN_NUMBER]
 
-params = {"ticks": 1200 + BURN_IN, "fundamental_value": 166, 'n_traders': 500, 'std_fundamental': 0.0530163128919286,
+params = {"ticks": 800 + BURN_IN, "fundamental_value": 166, 'n_traders': 500, 'std_fundamental': 0.0530163128919286,
           'spread_max': 0.004087, "init_stocks": 50, 'trader_sample_size': 19,
-          'horizon': 200, "trades_per_tick": 4}
+          'horizon': 100, "trades_per_tick": 3}
 
 
 def simulate_a_seed(seed_params):
@@ -164,9 +164,9 @@ def pool_handler():
 
         # update params
         uncertain_parameters = dict(zip(problem['names'], new_input_params))
-        params = {"ticks": 1200 + BURN_IN, "fundamental_value": 166, 'n_traders': 500, 'std_fundamental': 0.0530163128919286,
+        params = {"ticks": 800 + BURN_IN, "fundamental_value": 166, 'n_traders': 500, 'std_fundamental': 0.0530163128919286,
           'spread_max': 0.004087, "init_stocks": 50, 'trader_sample_size': 19,
-          'horizon': 200, "trades_per_tick": 4}
+          'horizon': 100, "trades_per_tick": 3}
         params.update(uncertain_parameters)
 
         list_of_seeds_params = [[seed, params] for seed in list_of_seeds]
@@ -179,7 +179,7 @@ def pool_handler():
 
         return np.mean(costs)
 
-    output = constrNM(model_performance, init_parameters, LB, UB, maxiter=3, full_output=True)
+    output = constrNM(model_performance, init_parameters, LB, UB, maxiter=1, full_output=True)
 
     print('All outputs are: ', output)
 

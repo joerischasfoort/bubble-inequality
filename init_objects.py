@@ -55,7 +55,7 @@ def init_objects_distr(parameters, seed):
         individual_horizon = np.random.randint(10, parameters['horizon'])
 
         individual_risk_aversion = abs(np.random.normal(parameters["base_risk_aversion"], parameters["base_risk_aversion"] / 5.0))#parameters["base_risk_aversion"] * relative_fundamentalism
-        individual_learning_ability = np.random.uniform(high=parameters["average_learning_ability"]) #TODO update to be more elegant
+        individual_learning_ability = min(abs(np.random.normal(parameters['average_learning_ability'], 0.1)), 1.0) #TODO what to do with std_dev
 
         lft_params = TraderParametersDistribution(individual_horizon, individual_risk_aversion,
                                                   individual_learning_ability, parameters['spread_max'])
