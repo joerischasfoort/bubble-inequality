@@ -434,6 +434,49 @@ def sim_bubble_info(seed):
         start_dates = []
         end_dates = []
 
+        # first add non-bubble episodes in between bubbles
+        if len(proper_bubbles) > 1:
+            for l in range(len(proper_bubbles) - 1):
+                start_dates.append(proper_bubbles.iloc[l]['end_date'] + 1)
+                end_dates.append(proper_bubbles.iloc[l + 1]['start_date'] - 1)
+
+                bubble_type = 'None'
+                bubble_types.append(bubble_type)
+
+                # determine the start and end wealth of the bubble
+                money_start = np.array([x.var.money[BURN_IN + start_dates[l]] for x in traders])
+                stocks_start = np.array([x.var.stocks[BURN_IN + start_dates[l]] for x in traders])
+                wealth_start = money_start + (stocks_start * mc_prices[0].iloc[start_dates[l]])
+
+                money_end = np.array([x.var.money[BURN_IN + end_dates[l]] for x in traders])
+                stocks_end = np.array([x.var.stocks[BURN_IN + end_dates[l]] for x in traders])
+                wealth_end = money_end + (stocks_end * mc_prices[0].iloc[end_dates[l]])
+
+                wealth_gini_over_time = []
+                palma_over_time = []
+                twentytwenty_over_time = []
+                for t in range(BURN_IN + start_dates[l], BURN_IN + end_dates[l]):
+                    money = np.array([x.var.money[t] for x in traders])
+                    stocks = np.array([x.var.stocks[t] for x in traders])
+                    wealth = money + (stocks * orderbook.tick_close_price[t])
+
+                    share_top_10 = sum(np.sort(wealth)[int(len(wealth) * 0.9):]) / sum(wealth)
+                    share_bottom_40 = sum(np.sort(wealth)[:int(len(wealth) * 0.4)]) / sum(wealth)
+                    palma_over_time.append(share_top_10 / share_bottom_40)
+
+                    share_top_20 = np.mean(np.sort(wealth)[int(len(wealth) * 0.8):])
+                    share_bottom_20 = np.mean(np.sort(wealth)[:int(len(wealth) * 0.2)])
+                    twentytwenty_over_time.append(share_top_20 / share_bottom_20)
+
+                    wealth_gini_over_time.append(gini(wealth))
+
+                bubble_prices.append(list(mc_prices[0].iloc[start_dates[l]: end_dates[l]]))
+                wealth_starts.append(list(wealth_start))
+                wealth_ends.append(list(wealth_end))
+                ginis_ot.append(wealth_gini_over_time)
+                palmas_ot.append(palma_over_time)
+                twtws_ot.append(twentytwenty_over_time)
+
         # add bubble episodes
         for l in range(len(proper_bubbles)):
             start_dates.append(proper_bubbles.iloc[l]['start_date'])

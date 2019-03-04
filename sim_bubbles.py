@@ -15,7 +15,7 @@ def pool_handler():
 
     output = p.map(sim_bubble_info, list_of_seeds)
 
-    with open('all_many_bubbles_output.json', 'w') as fp:
+    with open('all_many_bubbles_output2.json', 'w') as fp:
         json.dump(output, fp) #simple_json on supercomp
 
     print('All outputs are: ', output)
@@ -24,7 +24,7 @@ def pool_handler():
 if __name__ == '__main__':
     start_time = time.time()
 
-    NRUNS = 28
+    NRUNS = 20
     CORES = 4  # set the amount of cores equal to the amount of runs
 
     pool_handler()
