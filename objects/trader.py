@@ -22,26 +22,26 @@ class Trader:
         """
         return 'Trader' + str(self.name)
 
-    def sell(self, amount, price):
+    def sell(self, amount, price, respect_stocks=True):
         """
         Sells `amount` of stocks for a total of `price`
         :param amount: int Number of stocks sold.
         :param price: float Total price for stocks.
         :return: -
         """
-        if self.var.stocks[-1] < amount:
+        if self.var.stocks[-1] < amount and respect_stocks:
             raise ValueError("not enough stocks to sell this amount")
         self.var.stocks[-1] -= amount
         self.var.money[-1] += price
 
-    def buy(self, amount, price):
+    def buy(self, amount, price, respect_stocks=True):
         """
         Buys `amount` of stocks for a total of `price`
         :param amount: int number of stocks bought.
         :param price: float total price for stocks.
         :return: -
         """
-        if self.var.money[-1] < price:
+        if self.var.money[-1] < price and respect_stocks:
             raise ValueError("not enough money to buy this amount of stocks")
 
         self.var.stocks[-1] += amount

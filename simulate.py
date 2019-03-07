@@ -1,5 +1,6 @@
 from init_objects import *
 from distribution_model import *
+from no_stocks_distribution_model import *
 import time
 
 start_time = time.time()
@@ -20,6 +21,6 @@ parameters = {"fundamental_value": 166,
 traders, orderbook = init_objects_distr(parameters, seed=0)
 
 # 3 simulate model
-traders, orderbook = pb_distr_model(traders, orderbook, parameters, seed=0)
+traders, orderbook = pb_distr_model_no_stocks(traders, orderbook, parameters, seed=0)
 
 print("The simulations took", time.time() - start_time, "to run")
