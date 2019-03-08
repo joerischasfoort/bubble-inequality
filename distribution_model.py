@@ -37,7 +37,7 @@ def pb_distr_model(traders, orderbook, parameters, seed=1):
         traders_by_wealth.sort(key=lambda x: x.var.wealth[-1], reverse=True)
 
         # evolve the fundamental value via random walk process
-        fundamental.append(fundamental[-1] + parameters["std_fundamental"] * np.random.randn())
+        fundamental.append(max(fundamental[-1] + parameters["std_fundamental"] * np.random.randn(), 0.1))
 
         # allow for multiple trades in one day
         for turn in range(parameters["trades_per_tick"]):
