@@ -8,10 +8,10 @@ import json # simplejson on clustercomp
 
 np.seterr(all='ignore')
 
+
 def pool_handler():
     p = Pool(CORES) # argument is how many process happening in parallel
     list_of_seeds = [x for x in range(NRUNS)]
-
 
     output = p.map(sim_bubble_info, list_of_seeds)
 
