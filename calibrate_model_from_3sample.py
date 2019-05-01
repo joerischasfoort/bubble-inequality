@@ -93,7 +93,7 @@ def simulate_a_seed(seed_params):
         quantilesBsadf = cvPSYwmboot(pds, swindow0, IC, adflag, Tb, nboot)
         monitorDates = pds.iloc[swindow0 - 1:obs].index
         quantile95 = np.dot(np.array([quantilesBsadf]).T, np.ones([1, dim]))
-        ind95 = (bsadfs.T[0] > quantile95[1,])
+        ind95 = (bsadfs.T[0] > quantile95[1, ])
         periods = monitorDates[ind95]
 
         # only proceed with calculating bubble statistics if there were any

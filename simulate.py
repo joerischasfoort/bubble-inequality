@@ -18,7 +18,7 @@ parameters = {"fundamental_value": 166,
               "average_learning_ability": 0.5}
 
 # 2 initialise model objects
-traders, orderbook = init_objects_distr(parameters, seed=0)
+traders, orderbook = init_objects_unequal(parameters, seed=0, equality=0.01)
 
 # 3 simulate model
 traders, orderbook = pb_distr_model_no_stocks(traders, orderbook, parameters, seed=0)
