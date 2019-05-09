@@ -1,6 +1,8 @@
 import numpy as np
 from numpy import log, polyfit, sqrt, std, subtract
 import pandas as pd
+import math
+import scipy.stats as stats
 
 
 def calculate_covariance_matrix(historical_stock_returns, base_historical_variance):
@@ -139,6 +141,7 @@ def organise_data(obs, burn_in_period=0):
 
     return mc_prices, mc_returns, mc_autocorr_returns, mc_autocorr_abs_returns, mc_volatility, mc_volume, mc_fundamentals
 
+
 def hypothetical_series(starting_value, returns):
     """
     input: starting_value: float starting value
@@ -149,3 +152,15 @@ def hypothetical_series(starting_value, returns):
     for idx in range(len(returns)):
         simulated_series.append(simulated_series[-1] * (1 + returns[idx]))
     return simulated_series
+
+
+def get_specific_bootstraps_moments(full_series, bootstrap_number):
+    """Get a vector with the moments of a specific bootstrap"""
+    return np.array([full_series[i][bootstrap_number] for i in range(len(full_series))])
+
+
+def confidence_interval(data, av):
+    sample_stdev = np.std(data)
+    sigma = sample_stdev/math.sqrt(len(data))
+    return stats.t.interval(alpha = 0.95, df= 24, loc=av, scale=sigma)
+
